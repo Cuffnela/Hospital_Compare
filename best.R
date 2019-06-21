@@ -27,7 +27,7 @@ best<-function(state,outcome){
     
     ## checks for valid input and returns an error if incorrect
     statecheck<-state %in% state.abb
-    outcomecheck<-outcome %in% valid
+    outcomecheck<-outcome %in% names(valid)
     if (statecheck=="FALSE"){
         stop("invalid state")
     }else if(outcomecheck=="FALSE"){
