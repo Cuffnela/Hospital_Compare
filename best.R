@@ -16,16 +16,11 @@ data[,11]<-as.numeric(data[,11])
 # Create histogram of 30 day death rates from heart attack
 hist(data[,11])
 
-
-
-# function best takes two arguments: State  abbreviated, outcome name
-# returns name of hospital with best (lowest) 30-day mortality for given outcome
-# in the case of a tie: first alphabetic hospital returned
-best<-function(state,outcome){
+## function checks for valid state and outcome inputs
+validcheck<-function(state,outcome){
     ## vector of accepted outcomes
-    valid <- c("heart attack"=11, "heart failure"= 17,"pneumonia"=23)
+    valid <<- c("heart attack"=11, "heart failure"= 17,"pneumonia"=23)
     
-    ## checks for valid input and returns an error if incorrect
     statecheck<-state %in% state.abb
     outcomecheck<-outcome %in% names(valid)
     if (statecheck=="FALSE"){
@@ -33,6 +28,16 @@ best<-function(state,outcome){
     }else if(outcomecheck=="FALSE"){
         stop("invalid outcome")
     }
+}
+
+
+# function best takes two arguments: State  abbreviated, outcome name
+# returns name of hospital with best (lowest) 30-day mortality for given outcome
+# in the case of a tie: first alphabetic hospital returned
+best<-function(state,outcome){
+
+    ## checks for valid input and returns an error if incorrect
+    validcheck(state,outcome)
     
     ## Get outcome column reference for data set
     index<-valid[[outcome]]
