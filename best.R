@@ -4,6 +4,8 @@
 ## (http://hospitalcompare.hhs.gov)
 ## Focused on two data sets hospital-data.csv and outcome-of-care-measures.csv
 ## 
+## Program reads in data and finds the hospital with the best mortality rate for
+## a provided outcome
 
 ## read in data from outcome-of-care-measures.csv
 data<- read.csv("outcome-of-care-measures.csv")
