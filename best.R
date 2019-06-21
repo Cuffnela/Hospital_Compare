@@ -2,7 +2,7 @@
 ## Laurie Cuffney 6/20/2019
 ## Data used pulled from Hospital Compare website
 ## (http://hospitalcompare.hhs.gov)
-## Focused on two data sets hospital-data.csv and outcome-of-care-measures.csv
+## Focused on data set outcome-of-care-measures.csv
 ## 
 ## Program reads in data and finds the hospital with the best mortality rate for
 ## a provided outcome
