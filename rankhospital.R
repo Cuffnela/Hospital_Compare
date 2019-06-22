@@ -9,7 +9,7 @@
 ## rank for 30-day mortaily of provided outcome. Hospitals ranked from best   ##
 ## (lowest) to worst (highest mortality)                                      ##
 ##                                                                            ##
-###############################################################################
+################################################################################
 
 #source in best.R to utilize best function
 source('~/Code/Coursera-DataScience/Hospital_Compare/best.R')
