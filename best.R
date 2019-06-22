@@ -10,9 +10,11 @@
 ## read in data from outcome-of-care-measures.csv
 data<- read.csv("outcome-of-care-measures.csv")
 
-## coerce Hospital 30 day death rates from heart attack to numerics
-## may produce warning message due to NA, this is fine
+## coerce Hospital 30 day death rates from heart attack, heart failure, and 
+## pneumonia to numerics may produce warning message due to NA, this is fine
 data[,11]<-as.numeric(data[,11])
+data[,17]<-as.numeric(paste(data[,17]))
+data[,23]<-as.numeric(paste(data[,23]))
 # Create histogram of 30 day death rates from heart attack
 hist(data[,11])
 
@@ -43,21 +45,17 @@ best<-function(state,outcome){
     index<-valid[[outcome]]
 
     ## Read outcome data
-    stateSelect<-data$State==state
-    statedata<-data[stateSelect,]
-  
-    # find minimum/best outcome
-    mindeath<-min(as.numeric(paste(statedata[,index])))
-   
-    #get hospital name(s)
-    findhospital<-statedata[index]==mindeath
-    besthospital<-statedata[findhospital,][2]
+    bad<-is.na(data[,index])
+    cleandata<-data[!bad,]
+    mins<-tapply(cleandata[,index],cleandata$State,min)
+    statemin<-mins[state]
+    besthospital<-cleandata[cleandata[7]==state & cleandata[,index]==statemin][2]
     
     # tie breaker: alphabetize and return first in list
-    if (nrow(besthospital)>1){
-        alphahospital<-sort(besthospital[,1])
-        print("alphahospital")
-        besthospital<-alphahospital[1,1]
-    }
-    print(besthospital)
+    if (length(besthospital)>1){
+         alphahospital<-order(besthospital[1,])
+         print(paste("alphahospital",class(alphahospital)))
+         besthospital<-alphahospital[1,1]
+      }
+     print(besthospital)
 }
