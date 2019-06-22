@@ -10,18 +10,11 @@
 ## read in data from outcome-of-care-measures.csv
 data<- read.csv("outcome-of-care-measures.csv")
 
-## coerce Hospital 30 day death rates from heart attack, heart failure, and 
-## pneumonia to numerics may produce warning message due to NA, this is fine
-data[,11]<-as.numeric(data[,11])
-data[,17]<-as.numeric(paste(data[,17]))
-data[,23]<-as.numeric(paste(data[,23]))
-# Create histogram of 30 day death rates from heart attack
-hist(data[,11])
+## vector of accepted outcomes
+valid <<- c("heart attack"=11, "heart failure"= 17,"pneumonia"=23)
 
 ## function checks for valid state and outcome inputs
 validcheck<-function(state,outcome){
-    ## vector of accepted outcomes
-    valid <<- c("heart attack"=11, "heart failure"= 17,"pneumonia"=23)
     
     statecheck<-state %in% state.abb
     outcomecheck<-outcome %in% names(valid)
@@ -30,6 +23,21 @@ validcheck<-function(state,outcome){
     }else if(outcomecheck=="FALSE"){
         stop("invalid outcome")
     }
+}
+
+# function cleans data and ensures that data is numeric for outcome columns
+cleanup<-function(data,outcome){
+  cleandata<-NULL
+  ## Get outcome column reference for data set
+  index<<-valid[[outcome]]
+  
+  ## coerce Hospital 30 day death rates of given outcome
+  ## to numerics may produce warning message due to NA, this is fine
+  data[,index]<-as.numeric(paste(data[,index]))
+  
+  bad<-is.na(data[,index])
+  cleandata<<-data[!bad,]
+  
 }
 
 
@@ -41,15 +49,16 @@ best<-function(state,outcome){
     ## checks for valid input and returns an error if incorrect
     validcheck(state,outcome)
     
-    ## Get outcome column reference for data set
-    index<-valid[[outcome]]
 
     ## Read outcome data
-    bad<-is.na(data[,index])
-    cleandata<-data[!bad,]
+    cleanup(data,outcome)
     mins<-tapply(cleandata[,index],cleandata$State,min)
     statemin<-mins[state]
     besthospital<-cleandata[cleandata[7]==state & cleandata[,index]==statemin][2]
+    
+    # Create histogram of 30 day death rates from outcome
+    hist(cleandata[,index],xlab="30 day mortality rate", ylab="frequency",
+         main=paste("Historgram of", outcome))
     
     # tie breaker: alphabetize and return first in list
     if (length(besthospital)>1){
