@@ -53,9 +53,9 @@ best<-function(state,outcome){
     
     # tie breaker: alphabetize and return first in list
     if (length(besthospital)>1){
-         alphahospital<-order(besthospital[1,])
+         alphahospital<-sort(besthospital)
          print(paste("alphahospital",class(alphahospital)))
-         besthospital<-alphahospital[1,1]
+         besthospital<-alphahospital[1]
       }
      print(besthospital)
 }
