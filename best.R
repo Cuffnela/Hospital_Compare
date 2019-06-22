@@ -40,7 +40,6 @@ cleanup<-function(data,outcome){
   
 }
 
-
 # function best takes two arguments: State  abbreviated, outcome name
 # returns name of hospital with best (lowest) 30-day mortality for given outcome
 # in the case of a tie: first alphabetic hospital returned
@@ -62,9 +61,7 @@ best<-function(state,outcome){
     
     # tie breaker: alphabetize and return first in list
     if (length(besthospital)>1){
-         alphahospital<-sort(besthospital)
-         print(paste("alphahospital",class(alphahospital)))
-         besthospital<-alphahospital[1]
+      besthospital<-sort(besthospital)[1]
       }
      print(besthospital)
 }
