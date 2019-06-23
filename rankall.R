@@ -75,13 +75,5 @@ rankall<-function(outcome,num="best"){
     }
     combinelist
     
-    #creates ranking of mortality rates for given outcome and alphabetizes
-    #duplicated rates to tie break rank
-    #if(num=="worst"){ #pulls from bottom for worst rank
-    #    Nthhospital<-tail(rankorder,n=1)[1]
-    #}else{
-    #    Nthhospital<-rankorder[num,1]
-    #}
-    
 }
 
